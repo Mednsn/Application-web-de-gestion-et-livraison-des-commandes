@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeliveryApp  Livraison de commandes</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563EB',
+            secondary: '#22C55E',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- NAVBAR -->
+  <header class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-primary">DeliveryApp</h1>
+
+      <nav class="space-x-4">
+        <a href="signeUp.html"
+           class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+           Inscription
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION WITH PROFESSIONAL BACKGROUND -->
+  <section class="relative overflow-hidden pt-32">
+
+    <!-- Background blobs -->
+    <div class="absolute -top-32 -left-32 w-[450px] h-[450px] bg-blue-200 rounded-full blur-3xl opacity-60"></div>
+    <div class="absolute top-1/3 -right-32 w-[450px] h-[450px] bg-indigo-200 rounded-full blur-3xl opacity-60"></div>
+
+    <!-- Content -->
+    <div class="relative max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+
+      <!-- Text -->
+      <div>
+        <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+          Livrez vos commandes <br>
+          <span class="text-primary">rapidement et facilement</span>
+        </h2>
+
+        <p class="text-gray-600 mb-8 text-lg">
+          Une plateforme moderne qui connecte clients, livreurs et administrateurs
+          pour une gestion efficace des livraisons.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="signeUp.html"
+             class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg">
+             Commander maintenant
+          </a>
+
+          <a href="login.html"
+             class="border border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white transition">
+             Devenir livreur
+          </a>
+        </div>
+      </div>
+
+      <!-- Illustration -->
+      <div class="flex justify-center">
+        <!-- Illustration SVG -->
+<div class="flex justify-center">
+  <svg width="420" height="320" viewBox="0 0 420 320" fill="none"
+       xmlns="http://www.w3.org/2000/svg"
+       class="drop-shadow-xl">
+    
+    <!-- Background -->
+    <rect x="40" y="60" width="340" height="200" rx="20" fill="#E0E7FF"/>
+    
+    <!-- Box -->
+    <rect x="160" y="120" width="100" height="80" rx="12" fill="#2563EB"/>
+    
+    <!-- Wheels -->
+    <circle cx="170" cy="215" r="14" fill="#1F2937"/>
+    <circle cx="250" cy="215" r="14" fill="#1F2937"/>
+    
+    <!-- Road -->
+    <rect x="90" y="240" width="240" height="6" rx="3" fill="#9CA3AF"/>
+  </svg>
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-6">
+      <h3 class="text-3xl font-bold text-center mb-12">
+        Comment ça marche ?
+      </h3>
+
+      <div class="grid md:grid-cols-3 gap-8">
+
+        <div class="bg-blue-100 p-8 rounded-2xl shadow-sm text-center hover:shadow-md transition">
+          <div class="text-primary text-4xl font-bold mb-4">1</div>
+          <h4 class="text-xl font-semibold mb-2">Créer une commande</h4>
+          <p class="text-gray-600">
+            Le client crée une commande et attend les offres des livreurs.
+          </p>
+        </div>
+
+        <div class="bg-blue-100 p-8 rounded-2xl shadow-sm text-center hover:shadow-md transition">
+          <div class="text-primary text-4xl font-bold mb-4">2</div>
+          <h4 class="text-xl font-semibold mb-2">Recevoir des offres</h4>
+          <p class="text-gray-600">
+            Les livreurs proposent prix, durée et options de livraison.
+          </p>
+        </div>
+
+        <div class="bg-blue-100 p-8 rounded-2xl shadow-sm text-center hover:shadow-md transition">
+          <div class="text-primary text-4xl font-bold mb-4">3</div>
+          <h4 class="text-xl font-semibold mb-2">Livraison validée</h4>
+          <p class="text-gray-600">
+            Le client valide la livraison et la commande est terminée.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-primary py-16 text-center text-white">
+    <h3 class="text-3xl font-bold mb-4">
+      Prêt à commencer ?
+    </h3>
+    <p class="mb-6 text-lg">
+      Inscrivez-vous maintenant et profitez d’une expérience de livraison moderne.
+    </p>
+    <a href="#"
+       class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg">
+       Créer un compte
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-gray-400 py-8">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+      <p>© 2025 DeliveryApp. Tous droits réservés.</p>
+
+      <div class="space-x-4 mt-4 md:mt-0">
+        <a href="#" class="hover:text-white">Conditions</a>
+        <a href="#" class="hover:text-white">Confidentialité</a>
+        <a href="#" class="hover:text-white">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

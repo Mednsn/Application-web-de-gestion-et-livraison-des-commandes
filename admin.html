@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="font-[Inter] bg-slate-100 min-h-screen">
+
+     <!-- Sidebar -->
+  <aside class="w-64 bg-white shadow-lg p-6">
+    <h2 class="text-2xl font-bold text-blue-700 mb-10">Admin Panel</h2>
+    <nav class="space-y-3">
+      <a href="admin-statistiques.html" class="block px-4 py-2 hover:bg-gray-100 rounded">Dashboard</a>
+      <a href="admin-clients.html" class="block px-4 py-2 hover:bg-gray-100 rounded">Clients</a>
+      <a href="admin-livreurs.html" class="block px-4 py-2 hover:bg-gray-100 rounded">Livreurs</a>
+      <a href="admin-commandes.html" class="block px-4 py-2 hover:bg-gray-100 rounded">Commandes</a>
+      <a href="admin-offres.html" class="block bg-blue-100 text-blue-700 px-4 py-2 rounded">Offres</a>
+    </nav>
+  </aside>
+  
+  <main class="p-10">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-10">
+      <div>
+        <h1 class="text-4xl font-extrabold text-slate-900">Dashboard Administrateur</h1>
+        <p class="text-slate-500 mt-1">Vue globale de la plateforme de livraison</p>
+      </div>
+      <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow">
+        <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">A</div>
+        <span class="font-medium text-slate-700">Admin</span>
+      </div>
+    </header>
+
+    <!-- Stats Cards -->
+    <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-12">
+      <div class="group bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all">
+        <p class="text-sm font-medium text-slate-500 uppercase tracking-wide">Clients</p>
+        <h3 class="text-4xl font-extrabold text-slate-900 mt-2">1 245</h3>
+      </div>
+      <div class="group bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all">
+        <p class="text-sm font-medium text-slate-500 uppercase tracking-wide">Livreurs</p>
+        <h3 class="text-4xl font-extrabold text-slate-900 mt-2">312</h3>
+      </div>
+      <div class="group bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all">
+        <p class="text-sm font-medium text-slate-500 uppercase tracking-wide">Commandes</p>
+        <h3 class="text-4xl font-extrabold text-slate-900 mt-2">8 456</h3>
+      </div>
+      <div class="group bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all text-white">
+        <p class="text-sm uppercase tracking-wide opacity-90">Revenus</p>
+        <h3 class="text-4xl font-extrabold mt-2">+95 200 MAD</h3>
+      </div>
+    </section>
+
+    <!-- Tables Section -->
+    <section class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+      <!-- Dernières commandes -->
+      <div class="bg-white rounded-3xl shadow-xl p-6">
+        <h2 class="text-2xl font-bold text-slate-900 mb-6">Dernières commandes</h2>
+        <table class="w-full text-sm">
+          <thead class="text-slate-500 uppercase text-xs border-b">
+            <tr>
+              <th class="py-3">#</th>
+              <th>Client</th>
+              <th>Livreur</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-4 font-semibold">2041</td>
+              <td>Youssef</td>
+              <td>Ahmed</td>
+              <td><span class="px-4 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">Terminée</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-4 font-semibold">2042</td>
+              <td>Imane</td>
+              <td class="text-slate-400">—</td>
+              <td><span class="px-4 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700">En cours</span></td>
+            </tr>
+            <tr class="hover:bg-red-50 transition">
+              <td class="py-4 font-semibold">2043</td>
+              <td>Khalid</td>
+              <td class="text-slate-400">—</td>
+              <td><span class="px-4 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">Annulée</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Derniers livreurs -->
+      <div class="bg-white rounded-3xl shadow-xl p-6">
+        <h2 class="text-2xl font-bold text-slate-900 mb-6">Derniers livreurs</h2>
+        <ul class="space-y-4">
+          <li class="flex justify-between items-center">
+            <span class="font-medium">Ahmed L.</span>
+            <span class="px-3 py-1 rounded-full text-xs bg-emerald-100 text-emerald-700">Actif</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="font-medium">Yassine B.</span>
+            <span class="px-3 py-1 rounded-full text-xs bg-amber-100 text-amber-700">En attente</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="font-medium">Hassan M.</span>
+            <span class="px-3 py-1 rounded-full text-xs bg-red-100 text-red-700">Suspendu</span>
+          </li>
+        </ul>
+      </div>
+
+    </section>
+
+  </main>
+</body>
+</html>
