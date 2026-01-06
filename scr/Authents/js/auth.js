@@ -1,7 +1,4 @@
-// /**
-//  * auth.js
-//  * Handles authentication logic, session management, and access control.
-//  */
+
 
 // const Auth = {
 //     login(email, password, role) {
