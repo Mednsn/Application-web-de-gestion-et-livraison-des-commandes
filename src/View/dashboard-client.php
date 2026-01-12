@@ -2,16 +2,18 @@
 session_start();
 require_once __DIR__ . '/../Service/userService.php';
 require_once __DIR__ . '/../Service/CommandeService.php';
+require_once __DIR__ . '/../Service/OfferService.php';
 
 
 $cmndServc = new CommandeService();
 $userser = new UserService();
-
+$offres = new OfferService();
 $email = $_SESSION['email'];
 
 $user = $userser->findUser($email);
+$cmnd = $cmndServc->selectAllCommndClient($user->id);
 
-$cmnd = $cmndServc->selectAllCommnd();
+
 
 
 ?>
@@ -144,7 +146,7 @@ $cmnd = $cmndServc->selectAllCommnd();
                 <div class="flex items-center space-x-3 pl-6 border-l-2 border-gray-400">
                     <div class="text-right hidden sm:block">
                         <p id="user-name" class="text-sm font-semibold text-gray-900 leading-tight">
-                            <?php echo $user->getName(); ?>
+                            <?php echo $user->name; ?>
                         </p>
                         <p class="text-xs text-gray-600">Client Premium</p>
                     </div>
@@ -197,78 +199,87 @@ $cmnd = $cmndServc->selectAllCommnd();
 
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-bold text-gray-800">Vos Expéditions</h3>
-                    <button onclick="switchView('create')"
+                    <button onclick="switchView('create')" id="nouvelle"
                         class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-md transition-all flex items-center">
                         <i class="fas fa-plus mr-2"></i> Nouvelle
                     </button>
                 </div>
 
                 <div id="orders-container" class="space-y-4  ">
-               <?php if($cmnd) : ?>
-                    <?php foreach ($cmnd as $comnd) :  ?>
-                        <div class="shadow-xl p-10 border border-t-2 ">
-                            <div class="flex justify-between items-start mb-6 ">
-                                <span class="px-4 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-blue-200">
-                                    <?php echo $comnd['etats'];  ?>
-                                </span>
-                                <span class="text-gray-400  text-xs font-medium"><?php echo $comnd['date_creation']; ?></span>
-                            </div>
-
-                            <div class="relative pl-8 space-y-6 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-100">
-                                <div class="relative">
-                                    <div class="absolute -left-8 bg-white border-2 border-indigo-100 rounded-full w-6 h-6 flex items-center justify-center">
-                                        <div class="w-2 h-2 bg-indigo-500 rounded-full"></div>
-                                    </div>
-                                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-1">Ramassage</p>
-                                    <p class="text-gray-900 font-medium"><?php echo $comnd['adress_depart'];  ?></p>
+                    <?php if ($cmnd) : ?>
+                        <?php foreach ($cmnd as $comnd) :  ?>
+                            <div class="shadow-xl p-10 border border-t-2 ">
+                                <div class="flex justify-between items-start mb-6 ">
+                                    <span class="px-4 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-blue-200">
+                                        <?php echo $comnd->etats;  ?>
+                                    </span>
+                                    <span class="text-gray-400  text-xs font-medium"><?php echo $comnd->date_creation; ?></span>
                                 </div>
-                                <div class="relative">
-                                    <div class="absolute -left-8 bg-white border-2 border-pink-100 rounded-full w-6 h-6 flex items-center justify-center">
-                                        <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+
+                                <div class="relative pl-8 space-y-6 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-100">
+                                    <div class="relative">
+                                        <div class="absolute -left-8 bg-white border-2 border-indigo-100 rounded-full w-6 h-6 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-1">Ramassage</p>
+                                        <p class="text-gray-900 font-medium"><?php echo $comnd->adress_depart;  ?></p>
                                     </div>
-                                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-1">Livraison</p>
-                                    <p class="text-gray-900 font-medium"><?php echo $comnd['adress_livraison'];  ?></p>
+                                    <div class="relative">
+                                        <div class="absolute -left-8 bg-white border-2 border-pink-100 rounded-full w-6 h-6 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-1">Livraison</p>
+                                        <p class="text-gray-900 font-medium"><?php echo $comnd->adress_livraison;  ?></p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 bg-gray-50 rounded-xl p-4 text-sm text-gray-600 leading-relaxed">
+                                    <i class="fas fa-info-circle text-gray-400 mr-2"></i><?php echo $comnd->description;  ?>
+                                </div>
+
+                                <div class="flex items-center   mt-4 pt-4 border-t border-gray-50">
+                                    <?php $arrayoffres = $offres->selectAllByOffre($comnd->id);
+                                    // var_dump($arrayoffres);exit;
+                                        // $test = ;
+                                    if ($arrayoffres[0]->count !== null ): 
+                                    ?>
+                                        <form action="offresCmndModale.php" method="POST">
+                                            <input type="hidden" name="offreComnd" value="<?php echo $comnd->id ?>">
+                                            <button type="submit" class="flex-1 bg-indigo-200 hover:bg-indigo-500 text-indigo-800 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center">
+                                                <span class="bg-indigo-300 text-indigo-800 text-xs px-2 py-0.5 rounded-full mr-2"><?php echo $arrayoffres[0]->count ?></span> Voir les offres
+                                            </button>
+                                        </form>
+                                    <?php else : ?>
+
+                                        <div class="flex-1 text-center py-2 text-sm text-gray-400 bg-gray-50 rounded-lg italic">Aucune offre pour le moment</div>
+
+                                    <?php endif; ?>
+                                    <form class="px-4 py-2  text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Annuler la commande" method="POST" action="../Controler/CrudCommandController.php">
+                                        <input type="hidden" name="crud" value="delete">
+                                        <input type="hidden" name="id" value="<?php echo $comnd->id; ?>">
+                                        <button type="submit"> <i class="fas fa-trash-alt"></i></button>
+
+                                    </form>
                                 </div>
                             </div>
 
-                            <div class="mt-6 bg-gray-50 rounded-xl p-4 text-sm text-gray-600 leading-relaxed">
-                                <i class="fas fa-info-circle text-gray-400 mr-2"></i><?php echo $comnd['description'];  ?>
+                        <?php endforeach; ?>
+                    <?php else :  ?>
+                        <!-- jhgjkjbjhbiuibjbjh trwuy -->
+
+                        <div class="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-gray-200">
+                            <div class="bg-gray-50 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-box-open text-gray-300 text-3xl"></i>
                             </div>
+                            <h3 class="text-gray-900 font-medium text-lg">Aucune expédition</h3>
+                            <p class="text-gray-500 mb-6 max-w-sm mx-auto">Vous n'avez pas encore créé de demande de livraison. Lancez-vous dès maintenant !</p>
+                            <button onclick="switchView('create')" class="text-indigo-600 font-semibold hover:text-indigo-800 transition-colors">
+                                Commencer une expédition &rarr;
+                            </button>
+                            <!-- jhgjkjbjhbiuibjbjh trwuy -->
 
-                            <div class="flex items-center space-x-3 mt-4 pt-4 border-t border-gray-50">
-
-                                <!-- <button onclick="showOffers('${order.id}')" class="flex-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center">
-                            <span class="bg-indigo-200 text-indigo-800 text-xs px-2 py-0.5 rounded-full mr-2">offers length</span> Voir les offres
-                        </button> -->
-                                <div class="flex-1 text-center py-2 text-sm text-gray-400 bg-gray-50 rounded-lg italic">Aucune offre pour le moment</div>
-
-                                <a href="../Controler/ServcCmndByid.php?id=<?= $comnd['id']; ?>"  class="px-4 py-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Annuler la commande">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-                            </div>
                         </div>
-                    <?php  endforeach ; ?>
-                    <?php  else :  ?>
-                    <!-- jhgjkjbjhbiuibjbjh trwuy -->
-                    <!-- jhgjkjbjhbiuibjbjh trwuy -->
-                    <!-- jhgjkjbjhbiuibjbjh trwuy -->
-
-                    <!-- Orders Injected JS -->
-                    <div class="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-gray-200">
-                        <div class="bg-gray-50 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-box-open text-gray-300 text-3xl"></i>
-                        </div>
-                        <h3 class="text-gray-900 font-medium text-lg">Aucune expédition</h3>
-                        <p class="text-gray-500 mb-6 max-w-sm mx-auto">Vous n'avez pas encore créé de demande de livraison. Lancez-vous dès maintenant !</p>
-                        <button onclick="switchView('create')" class="text-indigo-600 font-semibold hover:text-indigo-800 transition-colors">
-                            Commencer une expédition &rarr;
-                        </button>
-                    <!-- jhgjkjbjhbiuibjbjh trwuy -->
-                    <!-- jhgjkjbjhbiuibjbjh trwuy -->
-                    <!-- jhgjkjbjhbiuibjbjh trwuy -->
-
-                    <!-- </div> -->
-                     <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -283,8 +294,9 @@ $cmnd = $cmndServc->selectAllCommnd();
 
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="p-8">
-                        <form method="POST" id="form-commande" class="space-y-6" action="../Service/ServiceCommande.php">
+                        <form method="POST" id="form-commande" class="space-y-6" action="../Controler/CrudCommandController.php">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <input type="hidden" name="crud" value="ajouter">
                                 <div class="space-y-2">
                                     <label class="text-sm font-semibold text-gray-700 flex items-center">
                                         <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i> Lieu de ramassage
@@ -304,7 +316,7 @@ $cmnd = $cmndServc->selectAllCommnd();
                             </div>
 
                             <div class="space-y-2">
-                                <label class="text-sm font-semibold text-gray-700">Description du colis</label>
+                                <label class="text-sm font-semibold text-gray-700">Description :</label>
                                 <textarea name="description" required rows="4"
                                     class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder-gray-400"
                                     placeholder="Décrivez le contenu, poids estimé, instructions spéciales..."></textarea>
@@ -335,28 +347,21 @@ $cmnd = $cmndServc->selectAllCommnd();
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-bold text-gray-900" id="profile-display-name">Chargement...
+                                    <h3 class="text-lg font-bold text-gray-900" id="profile-display-name"><?php echo $user->name ?>
                                     </h3>
                                     <p class="text-gray-500 text-sm">Client</p>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
-                                    <input type="text" name="nom" id="profile-nom" required
-                                        class="bg-black/5 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
-                                    <input type="text" name="prenom" id="profile-prenom" required
-                                        class="bg-black/5 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
-                                </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                                <input type="email" name="email" id="profile-email" value="<?php echo $user->name ?>" required
+                                    class="bg-black/5 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                <input type="email" name="email" id="profile-email" required
+                                <input type="email" name="email" id="profile-email" value="<?php echo $user->email ?>" required
                                     class="bg-black/5 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
                             </div>
 
@@ -382,44 +387,12 @@ $cmnd = $cmndServc->selectAllCommnd();
     </div>
 
     <!-- Modal for Offers -->
-    <div id="offers-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
-        aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                onclick="closeModal()"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <div
-                class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div
-                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <i class="fas fa-tags text-indigo-600"></i>
-                        </div>
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Offres reçues</h3>
-                            <div class="mt-4">
-                                <div id="offers-list" class="space-y-3 max-h-80 overflow-y-auto">
-                                    <!-- Dynamic content -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" onclick="closeModal()"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Fermer
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--    
     <script src="../Authents/js/data.js"></script>
     <script src="../Authents/js/auth.js"></script>
     <script src="../Authents/js/notifications.js"></script>
-    <script src="../Authents/js/client.js"></script>
+    <script src="../Authents/js/client.js"></script> -->
     <script src="../Authents/js/dashboard-client.js"></script>
 </body>
+
 </html>

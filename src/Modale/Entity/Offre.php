@@ -15,7 +15,7 @@ class Offre {
     private User $livreur;
     private Commande $commande;
 
-    public function __construct(float $prix, string $duree_estimee, string $option, ?bool $is_accept, ?DATETIME $date_creation=NULL, Vehicule $vehicule, User $livreur, Commande $commande,  ?int $id=NULL)
+    public function __construct(float $prix, string $duree_estimee, string $option, Vehicule $vehicule, User $livreur, Commande $commande, ?bool $is_accept, ?DATETIME $date_creation=NULL, ?int $id=NULL)
     {
         $this->prix = $prix;
         $this->duree_estimee = $duree_estimee;

@@ -20,9 +20,9 @@ if (isset($_POST['submit'])) {
 if($_GET['page']==="signeUp"){
     try {
         
-        $role_tab = new Role($_POST['roles']);
-
-        $authcontroler->register(trim($_POST['name']), trim($_POST['email']), trim($_POST['password']), $role_tab);
+        // $role_tab = new Role();
+        // var_dump($role_tab->getName());exit;
+        $authcontroler->register(trim($_POST['name']), trim($_POST['email']), trim($_POST['password']), trim($_POST['roles']));
 
     } catch (Exception $e) {
         echo "<p style='color:red'>Erreur: " . $e->getMessage() . "</p>";

@@ -14,13 +14,19 @@ class UserService
         $this->roleRepository = new RoleRepository();
     }
 
-    public function findUser($email): ?User
+    public function findUser($email)
     {
         $user = $this->userRepository->findByEmail($email);
         return $user;
     }
+    public function findUserById($id)
+    {
+        $user = $this->userRepository->findByEmailById($id);
+        return $user;
+    }
+    
 
-    public function login(string $email, string $pssword): ?User
+    public function login(string $email, string $pssword)
     {
 
         if (!$this->userRepository->findByEmail($email)) {
@@ -30,7 +36,7 @@ class UserService
         
         }
         $row = $this->userRepository->findByEmail($email);
-        if (!password_verify($pssword, $row->getPassword())) {
+        if (!password_verify($pssword, $row->password)) {
             echo "<script>alert(\" votre password incorrect  !!\")</script>";
 
             header('Location: Authents/login.html');
@@ -38,7 +44,7 @@ class UserService
         }
         return $row;
     }
-    public function signeUp(string $name, string $email, string $password, Role $role): void
+    public function signeUp(string $name, string $email, string $password, string $role): void
     {
 
         if ($this->userRepository->findByEmail($email)) {
@@ -46,15 +52,16 @@ class UserService
             header("Location: Authents/signeUp.html");
             exit;
         }
-
-        $rol = $this->roleRepository->selectRoleByNmae($role->getName());
+        $rol = $this->roleRepository->selectRoleByNmae($role);
         if (!$rol) {
-            $this->roleRepository->add($role);
-            $rol = $this->roleRepository->selectRoleByNmae($role->getName());
-        }
-
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
+            $newRole = new Role();
+            $newRole->setName($role);
+            $this->roleRepository->add($newRole);
+            $rol = $this->roleRepository->selectRoleByNmae($role);
+            }
+            
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            
         $user = new User($name, $email, $hashedPassword, $rol);
 
         $this->userRepository->add($user);

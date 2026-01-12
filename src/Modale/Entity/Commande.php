@@ -9,12 +9,12 @@ class Commande {
     private string $adress_livraison ;
     private ?DATETIME $date_creation ;
     private ?DATETIME $date_modification ;
-    private User $client;
-    private StatutCommande $status;
+    private User $client_id;
+    private StatutCommande $statut_id;
     private bool $is_deleted ;
 
 public function __construct(string $description ,string  $adress_depart ,
-string $adress_livraison,User $client, StatutCommande $status,bool $is_deleted,?DATETIME $date_creation= NULL,
+string $adress_livraison,User $client_id, StatutCommande $statut_id,bool $is_deleted,?DATETIME $date_creation= NULL,
 ?DATETIME $date_modification = NULL,?int $id=NULL)
 {
     $this->description = $description;
@@ -22,8 +22,8 @@ string $adress_livraison,User $client, StatutCommande $status,bool $is_deleted,?
     $this->adress_livraison = $adress_livraison;
     $this->date_creation = $date_creation;
     $this->date_modification = $date_modification;
-    $this->client = $client;
-    $this->status = $status;
+    $this->client_id = $client_id;
+    $this->statut_id = $statut_id;
     $this->is_deleted = $is_deleted;
     $this->id = $id;
     
@@ -50,10 +50,10 @@ public function getDateModification(){
      return $this->date_modification;
 }
 public function getClient(){
-     return $this->client;
+     return $this->client_id;
 }
 public function getStatus(){
-     return $this->status;
+     return $this->statut_id;
 }
 public function getIsDelete(){
      return $this->is_deleted;
@@ -73,11 +73,11 @@ public function setDateCreation($date_creation){
 public function setDateModification($date_modification){
      return $this->date_modification=$date_modification;
 }
-public function setClient($client){
-     return $this->client=$client;
+public function setClient($client_id){
+     return $this->client_id=$client_id;
 }
-public function setStatus($status){
-     return $this->status=$status;
+public function setStatus($statut_id){
+     return $this->statut_id=$statut_id;
 }
 public function setIsDelete($is_deleted){
      return $this->is_deleted=$is_deleted;

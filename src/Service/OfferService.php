@@ -9,10 +9,10 @@ class OfferService
     {
         $this->offre_repository = new OffreRepository();
     }
-    public function add(): array
+    public function add(Offre $offre)
     {
-        $row = $this->offre_repository->selectAll();
-        return $row;
+        return $this->offre_repository->add($offre);
+        
     }
     public function update(int $id, Offre $offre):void
     {
@@ -28,6 +28,16 @@ class OfferService
         $row = $this->offre_repository->selectAll();
         return $row;
     }
+     public function selectAllByOffre(int $id){
+        return $this->offre_repository->selectAllByOffre($id);
+        
+    }
+    public function selectLivreurOffresByid(int $id)
+    {
+        $row = $this->offre_repository->selectLivreurOffresByid($id);
+        return $row;
+    }
+
 
 
 

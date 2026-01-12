@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../database/Connexion.php';
-require_once __DIR__ . '/../Modale/Entity/Role.php';
+require_once __DIR__ . '/../Modale/Entity/Vehicule.php';
 
 
-class RoleRepository
+class Vehicule_repository
 {
     private PDO $pdo;
 
@@ -13,20 +13,20 @@ class RoleRepository
         $this->pdo = $db->getConnexion();
     }
 
-    public function add(Role $role): void
+    public function add(Vehicule $vehicule): void
     {
-        $sql = "INSERT INTO roles (name)
+        $sql = "INSERT INTO vehicles (name)
              VALUES (:name)";
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->execute(['name' => $role->getName()]);
+        $stmt->execute(['name' => $vehicule->getName()]);
     }
-    public function selectRoleByNmae(string $name) 
+    public function selectVehiculeByNmae(string $name) 
     {
-        $sql = "SELECT * FROM roles WHERE name= ? LIMIT 1";
+        $sql = "SELECT * FROM vehicles WHERE name= ? LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$name]);
-        $stmt->setFetchMode(PDO::FETCH_CLASS,Role::class);
+        $stmt->setFetchMode(PDO::FETCH_CLASS,Vehicule::class);
         return $stmt->fetch();       
     }
 }

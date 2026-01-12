@@ -24,13 +24,13 @@ class StatutRapository
 
         $stmt->execute(['etats' => $statut->getEtats(),'libelle' => $statut->getLibelle()]);
     }
-    public function selectStatuByEtats(string $etats): ?StatutCommande
+    public function selectStatuByEtats(string $etats)
     {
         $sql = "SELECT * FROM statutcommandes WHERE etats= ? LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$etats]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        $stmt->setFetchMode(PDO::FETCH_CLASS,StatutCommande::class);
+        $row = $stmt->fetch();
         if(!$row){
             return NULL;
         }else{

@@ -1,17 +1,16 @@
 <?php
 
 session_start();
+require_once __DIR__ . '/../Service/userService.php';
+require_once __DIR__ . '/../Service/CommandeService.php';
 
-require_once __DIR__ . '/../Repository/UserRepository.php';
-require_once __DIR__ . '/../Database/Connexion.php';
-$conn = new Connexion();
-$pdo = $conn->getConnexion();
-$userRepo = new UserRepository();
 
-$email=$_SESSION['email'];
+$cmndServc = new CommandeService();
+$userser = new UserService();
 
-$arrayUser = $userRepo->findByEmail($email);
+$email = $_SESSION['email'];
 
+$user = $userser->findUser($email);
 ?>
 
 <!DOCTYPE html>
@@ -290,22 +289,15 @@ $arrayUser = $userRepo->findByEmail($email);
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
-                                    <input type="text" name="nom" id="profile-nom" required
-                                        class="bg-black/5 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
-                                    <input type="text" name="prenom" id="profile-prenom" required
-                                        class="bg-black/5 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
-                                </div>
+                           <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">name</label>
+                                <input type="email" name="email" id="profile-email" value="<?php echo $user->name ?>" required
+                                    class="bg-black/5 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                <input type="email" name="email" id="profile-email" required
+                                <input type="email" name="email" id="profile-email" required value="<?php echo $user->email ?>"
                                     class="bg-black/5 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
                             </div>
 

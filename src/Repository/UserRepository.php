@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . '/../Entity/User.php';
-require_once __DIR__ . '/../Entity/Role.php';
+require_once __DIR__ . '/../Modale/Entity/User.php';
+require_once __DIR__ . '/../Modale/Entity/Role.php';
 require_once __DIR__ . '/../database/Connexion.php';
+require_once __DIR__ . '/../Modale/viewModale/UserJoinRole.php';
 
 class UserRepository
 {
@@ -13,35 +14,33 @@ class UserRepository
         $this->pdo = $db->getConnexion();
     }
 
-    public function findByEmail(string $email): ?User
+    public function findByEmail(string $email)
     {
         $sql="SELECT r.id AS R_id,r.name AS role,u.* FROM users u INNER JOIN roles r ON r.id=u.role_id WHERE email = :email LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['email' => $email]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$data) {
-            return null;
-        }
-        $role=new Role($data['role'],$data['R_id']);
-        $date_creation= new DateTime($data['date_creation']);
-
-        return new User($data['name'],$data['email'],$data['password'],$role,$date_creation,$data['id']);
-    }
-     public function findByEmailJUSTEFORTEST(string $email): ?array
-    {
-        $sql="SELECT r.id AS R_id,r.name AS role,u.* FROM users u INNER JOIN roles r ON r.id=u.role_id WHERE email = :email LIMIT 1";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['email' => $email]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$data) {
-            return null;
-        }
-        
-
+        $stmt->setFetchMode(PDO::FETCH_CLASS,UserJoinRole::class);
+        $data = $stmt->fetch();
         return $data;
     }
+    public function findByEmailById(int $id)
+    {
+        $sql="SELECT r.id AS R_id,r.name AS role,u.* FROM users u INNER JOIN roles r ON r.id=u.role_id WHERE id = :id LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS,UserJoinRole::class);
+        $data = $stmt->fetch();
+        return $data;
+    }
+    // public function findUserByEmail(string $email)
+    // {
+    //     $sql="SELECT * FROM users  WHERE email = :email LIMIT 1";
+    //     $stmt = $this->pdo->prepare($sql);
+    //     $stmt->execute(['email' => $email]);
+    //     $stmt->setFetchMode(PDO::FETCH_CLASS,User::class);
+    //     $data = $stmt->fetch();
+    //     return $data;
+    // }
 
     public function add(User $user): void
     {

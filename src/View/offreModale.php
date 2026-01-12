@@ -12,12 +12,14 @@ $userRepo = new UserRepository();
 
 $email = $_SESSION['email'];
 
+$id_commande = $_POST['id_commande'];
+
 $user = $userRepo->findByEmail($email);
 
 $cmndRepo = new CommandeRepository();
 
 $cmnd = $cmndRepo->selectAll();
-
+// var_dump($cmnd);exit;
 // var_dump($cmnd[0]->description);exit;
 
 
@@ -205,7 +207,7 @@ $cmnd = $cmndRepo->selectAll();
                                 <div class="flex items-center">
                                     <i class="fas fa-users text-gray-400 mr-2"></i><?php echo $comnd->client_id; ?> number offrs concurrents
                                 </div>
-                                <div class="font-bold text-gray-900">Offre max: 5</div>
+                                <div class="font-bold text-gray-900">Offre max:5</div>
                             </div>
                             <form action="offreModale.php" method="POST">
                                 <input type="hidden" name="id_commande" value="<?php echo $comnd->id; ?> ">
@@ -289,12 +291,87 @@ $cmnd = $cmndRepo->selectAll();
     </div>
 
     <!-- Offer Modal -->
-    
-    <!-- <script src="../Authents/js/data.js"></script>
+     <div id="offer-modal" class="block fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div
+                class="inline-block align-bottom bg-black/75 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Faire une offre</h3>
+                    <form action="../Controler/CrudOffreControler.php" method="POST" class="space-y-4">
+                        <input type="hidden" name="orderId" id="modal-order-id">
+                        <input type="hidden" name="offrs" id="ajouter">
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Votre Prix (DH)</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">DH</span>
+                                </div>
+                                <input type="number" name="price" min="1"
+                                    class="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all placeholder-gray-300"
+                                    placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Durée estimée</label>
+                            <input type="text" name="duration" placeholder="ex: 30 min"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Option</label>
+                            <input type="text" name="option" placeholder="ex:express, fragile, etc..."
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Véhicule</label>
+                            <div class="grid grid-cols gap-2  items-center">
+                                <!-- Custom Radio Select -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="vehicle" value="Moto" class="peer sr-only" checked>
+                                    <div
+                                        class="text-center p-2 border rounded-lg peer-checked:bg-indigo-50 peer-checked:border-indigo-500 hover:bg-gray-50 transition-all">
+                                        <i class="fas fa-motorcycle block text-lg mb-1"></i> <span
+                                            class="text-xs">Moto</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="vehicle" value="Voiture" class="peer sr-only">
+                                    <div
+                                        class="text-center p-2 border rounded-lg peer-checked:bg-indigo-50 peer-checked:border-indigo-500 hover:bg-gray-50 transition-all">
+                                        <i class="fas fa-car block text-lg mb-1"></i> <span class="text-xs">Auto</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex justify-end space-x-3">
+                            <a href="dashboard-livreur.php"
+                                class="px-4 py-2 text-gray-500 hover:text-gray-700 font-medium">Annuler</a>
+                            <form action="../Controler/CrudOffreControler.php" method="POST">
+                                <input type="hidden" name="offrs" value="Ajouter">
+                                <input type="hidden" name="id_commande" value="<?php echo $id_commande; ?>">
+                                <button type="submit"
+                                    class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg hover:bg-indigo-700 transition-all">Envoyer
+                                    l'offre</button>
+                            </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../Authents/js/data.js"></script>
     <script src="../Authents/js/auth.js"></script>
     <script src="../Authents/js/notifications.js"></script>
-    <script src="../Authents/js/driver.js"></script> -->
-    <script src="../Authents/js/dashboard-driver.js"></script>
+    <script src="../Authents/js/driver.js"></script>
+    <script src="../Authents/js/dashboard-driver-ui.js"></script>
 </body>
 
 </html>

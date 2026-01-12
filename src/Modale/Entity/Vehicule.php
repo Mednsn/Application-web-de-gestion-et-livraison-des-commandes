@@ -4,12 +4,12 @@
 class Vehicule
 {
     private ?int $id;
-    private string $name;
-    public function __construct(string $name, ?int $id = NULL)
-    {
-        $this->name = $name;
-        $this->id = $id;
-    }
+    private string $name='null';
+    // public function __construct(string $name, ?int $id = NULL)
+    // {
+    //     $this->name = $name;
+    //     $this->id = $id;
+    // }
     public function getId()
     {
         return $this->id;
