@@ -74,7 +74,7 @@ class CommandeRepository
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['cmnd_id'=>$cmnd_id,'C_id'=>$C_id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS,CommandeJoinStaut::class);
-        var_dump($stmt->fetch());exit;       
+        return $stmt->fetch();     
         
     }
      public function selectById(int $cmnd_id)
